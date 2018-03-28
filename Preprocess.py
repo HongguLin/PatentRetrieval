@@ -198,7 +198,8 @@ def unify_s(path, file):
 
         my_jsonStr = json.dumps(my_jsonDict, indent=4)
 
-        my_path = '/Users/linhonggu/Desktop/' + 'test2' + path[27:]
+        #my_path = '/Users/linhonggu/Desktop/' + 'test2' + path[27:]
+        my_path = '/datastore/lin223/EP-UNIT/' + path[27:]
         if not os.path.exists(my_path):
             os.makedirs(my_path)
 
@@ -262,7 +263,8 @@ def unify_m(path, files):
 
         my_jsonStr = json.dumps(my_jsonDict, indent=4)
 
-        my_path = '/Users/linhonggu/Desktop/' + 'test2' + path[27:]
+        #my_path = '/Users/linhonggu/Desktop/' + 'test2' + path[27:]
+        my_path = '/datastore/lin223/EP-UNIT/' + path[27:]
         if not os.path.exists(my_path):
             os.makedirs(my_path)
 
@@ -272,7 +274,8 @@ def unify_m(path, files):
 
 
 def main():
-    path = '/Users/linhonggu/Desktop/70'
+    #path = '/Users/linhonggu/Desktop/70'
+    path = '/datastore/lin223/EP'
 
     for path, subdirs, files in os.walk(path):
         if len(files)!=0 and files[0].split(".")[1]=='xml':

@@ -45,8 +45,9 @@
         <option value="$PROJECT_DIR$/Retrieval.py" />
         <option value="$PROJECT_DIR$/Score.py" />
         <option value="$PROJECT_DIR$/test.py" />
-        <option value="$PROJECT_DIR$/Preprocess.py" />
         <option value="$PROJECT_DIR$/Mark.py" />
+        <option value="$PROJECT_DIR$/Preprocess.py" />
+        <option value="$PROJECT_DIR$/run.sh" />
       </list>
     </option>
   </component>
@@ -505,7 +506,6 @@
         <state relative-caret-position="3450">
           <caret line="236" column="0" lean-forward="false" selection-start-line="236" selection-start-column="0" selection-end-line="237" selection-end-column="10" />
           <folding>
-            <element signature="e#0#11#0" expanded="false" />
             <element signature="e#468#520#0" expanded="false" />
             <element signature="e#563#2287#0" expanded="false" />
             <element signature="e#2313#2317#0" expanded="false" />
@@ -538,8 +538,8 @@
             <element signature="e#2239#2364#0" expanded="false" />
             <element signature="e#2387#5318#0" expanded="false" />
             <element signature="e#5345#6790#0" expanded="false" />
-            <element signature="e#6821#8720#0" expanded="false" />
-            <element signature="e#8752#11625#0" expanded="false" />
+            <element signature="e#6821#8780#0" expanded="false" />
+            <element signature="e#8812#11745#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -566,7 +566,6 @@
         <state relative-caret-position="2970">
           <caret line="198" column="54" lean-forward="false" selection-start-line="198" selection-start-column="54" selection-end-line="198" selection-end-column="54" />
           <folding>
-            <element signature="e#0#11#0" expanded="false" />
             <element signature="e#468#520#0" expanded="false" />
             <element signature="e#563#2287#0" expanded="false" />
             <element signature="e#2313#2317#0" expanded="false" />
@@ -608,7 +607,6 @@
         <state relative-caret-position="2670">
           <caret line="178" column="21" lean-forward="false" selection-start-line="178" selection-start-column="21" selection-end-line="178" selection-end-column="21" />
           <folding>
-            <element signature="e#0#11#0" expanded="false" />
             <element signature="e#468#520#0" expanded="false" />
             <element signature="e#563#2287#0" expanded="false" />
             <element signature="e#2313#2317#0" expanded="false" />
@@ -650,7 +648,6 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#0#11#0" expanded="false" />
             <element signature="e#468#520#0" expanded="false" />
             <element signature="e#563#2287#0" expanded="false" />
             <element signature="e#2313#2317#0" expanded="false" />
@@ -682,7 +679,6 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#0#11#0" expanded="false" />
             <element signature="e#468#520#0" expanded="false" />
             <element signature="e#563#2287#0" expanded="false" />
             <element signature="e#2313#2317#0" expanded="false" />
@@ -714,7 +710,6 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#0#11#0" expanded="false" />
             <element signature="e#468#520#0" expanded="false" />
             <element signature="e#563#2287#0" expanded="false" />
             <element signature="e#2313#2317#0" expanded="false" />
@@ -746,7 +741,6 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#0#11#0" expanded="false" />
             <element signature="e#468#520#0" expanded="false" />
             <element signature="e#563#2287#0" expanded="false" />
             <element signature="e#2313#2317#0" expanded="false" />
@@ -778,7 +772,6 @@
         <state relative-caret-position="450">
           <caret line="30" column="5" lean-forward="false" selection-start-line="30" selection-start-column="5" selection-end-line="30" selection-end-column="5" />
           <folding>
-            <element signature="e#0#11#0" expanded="false" />
             <element signature="e#468#520#0" expanded="false" />
             <element signature="e#563#2287#0" expanded="false" />
             <element signature="e#2313#2317#0" expanded="false" />
@@ -810,7 +803,6 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#0#11#0" expanded="false" />
             <element signature="e#468#520#0" expanded="false" />
             <element signature="e#563#2287#0" expanded="false" />
             <element signature="e#2313#2317#0" expanded="false" />
@@ -869,38 +861,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Preprocess.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#11#0" expanded="false" />
-            <element signature="e#68#333#0" expanded="false" />
-            <element signature="e#359#1396#0" expanded="false" />
-            <element signature="e#1418#1710#0" expanded="false" />
-            <element signature="e#1738#2218#0" expanded="false" />
-            <element signature="e#2239#2364#0" expanded="false" />
-            <element signature="e#2387#5318#0" expanded="false" />
-            <element signature="e#5345#6790#0" expanded="false" />
-            <element signature="e#6821#8720#0" expanded="false" />
-            <element signature="e#8752#11625#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Retrieval.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2910">
-          <caret line="231" column="20" lean-forward="true" selection-start-line="231" selection-start-column="20" selection-end-line="231" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#11#0" expanded="false" />
-            <element signature="e#468#520#0" expanded="false" />
-            <element signature="e#563#2287#0" expanded="false" />
-            <element signature="e#2313#2317#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Score.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="510">
@@ -909,6 +869,45 @@
             <element signature="e#25#1337#0" expanded="false" />
             <element signature="e#1364#1391#0" expanded="false" />
             <element signature="e#1425#1694#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Retrieval.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="672">
+          <caret line="231" column="20" lean-forward="true" selection-start-line="231" selection-start-column="20" selection-end-line="231" selection-end-column="20" />
+          <folding>
+            <element signature="e#468#520#0" expanded="false" />
+            <element signature="e#563#2287#0" expanded="false" />
+            <element signature="e#2313#2317#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/run.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="20" lean-forward="false" selection-start-line="12" selection-start-column="20" selection-end-line="12" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Preprocess.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="209" column="25" lean-forward="false" selection-start-line="209" selection-start-column="25" selection-end-line="209" selection-end-column="25" />
+          <folding>
+            <element signature="e#68#333#0" expanded="false" />
+            <element signature="e#359#1396#0" expanded="false" />
+            <element signature="e#1418#1710#0" expanded="false" />
+            <element signature="e#1738#2218#0" expanded="false" />
+            <element signature="e#2239#2364#0" expanded="false" />
+            <element signature="e#2387#5318#0" expanded="false" />
+            <element signature="e#5345#6790#0" expanded="false" />
+            <element signature="e#6821#8780#0" expanded="false" />
+            <element signature="e#8812#11745#0" expanded="false" />
+            <element signature="e#11764#12254#0" expanded="false" />
           </folding>
         </state>
       </provider>
