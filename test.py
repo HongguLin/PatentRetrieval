@@ -1,5 +1,4 @@
 '''
-
 from googletrans import Translator
 
 translator = Translator()
@@ -11,10 +10,8 @@ print(y)
 
 tr = translator.translate('我是一个程序员', dest='en')
 print(tr)
-'''
-import re
 
-''''
+import re
 l1 = [1,2,3]
 l2=[4,5,6]
 
@@ -22,7 +19,7 @@ for x,y in zip(l1,l2):
     print(x)
     print(y)
     print("-------")
-'''
+
 
 s = 'fsf \n fdfs\n dfs90(a) :fdfs(b)(1);(3).(12),(34)'
 print(s)
@@ -35,10 +32,25 @@ print(k)
 #s=s.replace('(a)',' ')
 #print(s)
 
-
-
-'''''
 my_path = '/Users/linhonggu/Desktop/test2/61/71'
 if not os.path.exists(my_path):
     os.makedirs(my_path)
 '''''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

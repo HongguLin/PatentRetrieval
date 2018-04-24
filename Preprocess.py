@@ -198,8 +198,7 @@ def unify_s(path, file):
 
         my_jsonStr = json.dumps(my_jsonDict, indent=4)
 
-        #my_path = '/Users/linhonggu/Desktop/' + 'test2' + path[27:]
-        my_path = '/datastore/lin223/EP-UNIT/' + path[27:]
+        my_path = '/Volumes/RG/EP-UNI' + path[14:]
         if not os.path.exists(my_path):
             os.makedirs(my_path)
 
@@ -263,8 +262,7 @@ def unify_m(path, files):
 
         my_jsonStr = json.dumps(my_jsonDict, indent=4)
 
-        #my_path = '/Users/linhonggu/Desktop/' + 'test2' + path[27:]
-        my_path = '/datastore/lin223/EP-UNIT/' + path[27:]
+        my_path = '/Volumes/RG/EP-UNI' + path[14:]
         if not os.path.exists(my_path):
             os.makedirs(my_path)
 
@@ -273,9 +271,59 @@ def unify_m(path, files):
             f.write(my_jsonStr)
 
 
+def qrel(path,file):
+    with open(os.path.join(path, file)) as f:
+        xmlStr = f.read()
+    jsonStr = json.dumps(xmltodict.parse(xmlStr), indent=4)
+    jsonObj = json.loads(jsonStr)
+
+    lang = jsonObj['patent-document']['@lang']
+    if lang == 'EN':
+        abstract = ''
+        description = ''
+        claims = ''
+        title = ''
+        ipcr = []
+
+        ucid = jsonObj['patent-document']['@ucid']
+        if 'abstract' in jsonObj['patent-document']:
+            abstract = abst(jsonObj['patent-document']['abstract'])
+        if 'description' in jsonObj['patent-document']:
+            description = des(jsonObj['patent-document']['description'])
+        if 'claims' in jsonObj['patent-document']:
+            claims = cla(jsonObj['patent-document']['claims'])
+        if 'technical-data' in jsonObj['patent-document']['bibliographic-data']:
+            if 'invention-title' in jsonObj['patent-document']['bibliographic-data']['technical-data']:
+                title = tit(jsonObj['patent-document']['bibliographic-data']['technical-data']['invention-title'])
+            if 'classifications-ipcr' in jsonObj['patent-document']['bibliographic-data']['technical-data']:
+                ipcr = ipc(jsonObj['patent-document']['bibliographic-data']['technical-data']['classifications-ipcr'][
+                               'classification-ipcr'])
+
+        my_jsonDict = {'patent-document': {'PAC':file.split('_')[0], 'ucid': ucid, 'abstract': abstract, 'description': description,
+                                           'title': title, 'claims': claims, 'ipcr': ipcr}}
+
+        my_jsonStr = json.dumps(my_jsonDict, indent=4)
+
+        my_path = '/Users/linhonggu/Documents/Topics-2010-JSON/'
+        if not os.path.exists(my_path):
+            os.makedirs(my_path)
+
+        my_file = file.split('.')[0] + '.json'
+        with open(os.path.join(my_path, my_file), 'w') as f:
+            f.write(my_jsonStr)
+
 def main():
-    #path = '/Users/linhonggu/Desktop/70'
-    path = '/datastore/lin223/EP'
+    path = '/Users/linhonggu/Documents/Topics-2010/'
+    for filename in os.listdir(path):
+        if filename.split(".")[1]=='xml':
+            qrel(path,filename)
+
+
+
+
+'''
+def main():
+    path = '/Volumes/RG/EP/000001'
 
     for path, subdirs, files in os.walk(path):
         if len(files)!=0 and files[0].split(".")[1]=='xml':
@@ -289,6 +337,7 @@ def main():
                 #for file in files:
                     #get(path, file)
 
+'''
 
 if __name__ == "__main__":
     main()

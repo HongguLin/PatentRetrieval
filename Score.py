@@ -69,7 +69,8 @@ def PRES(correct, mine, R):
             sum = sum + i
 
     #sum = sum + (R*(Nm+n)-R*(R-1)/2)
-    sum = sum + (n-R)*(Nm+(R+n+1)/2)
+    #sum = sum + (n-R)*(Nm+(R+n+1)/2)
+    sum = sum +(n-R)*(Nm+n) - (n-R)*(n-R-1)/2
     pres = 1 - (sum/n - (n+1)/2)/Nm
 
     return pres
