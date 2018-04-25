@@ -29,10 +29,9 @@ def compare(fT, fM):
             nv_set = set(T_dict[k])
 
             TP = len(mv_set & nv_set)
-            FN = len(nv_set) - TP
 
             P = PRES(T_dict[k], M_dict[k], TP)
-            R = ARecall(TP, FN)
+            R = ARecall(TP, len(nv_set))
             A = AP(T_dict[k], M_dict[k])
             result[k] = [P, R, A]
             All_P += P
@@ -53,8 +52,8 @@ def compare(fT, fM):
     print(result)
     return ave_P, ave_R, ave_A
 
-def ARecall(TP, FN):
-    R = TP/(TP+FN)
+def ARecall(TP, n):
+    R = TP/n
     return R
 
 def PRES(correct, mine, R):
@@ -68,28 +67,25 @@ def PRES(correct, mine, R):
         if m in correct:
             sum = sum + i
 
-    #sum = sum + (R*(Nm+n)-R*(R-1)/2)
-    #sum = sum + (n-R)*(Nm+(R+n+1)/2)
+    #sum = sum + R*(Nm+n)-(R*(R-1))/2
     sum = sum +(n-R)*(Nm+n) - (n-R)*(n-R-1)/2
     pres = 1 - (sum/n - (n+1)/2)/Nm
-
     return pres
 
 def AP(correct, mine):
-    l = len(correct)
-    mine = mine[0:l]
+    n = len(correct)
     i=0
     rel_ret=0
     sum=0
-    for c, m in zip(correct, mine):
+    for m in mine:
         i+=1
-        if c == m:
+        if m in correct:
             rel=1
             rel_ret+=1
         else:rel=0
         p = rel_ret/i
         sum = sum + (rel*p)
-    rt = sum/l
+    rt = sum/n
     return rt
 
 

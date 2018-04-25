@@ -3,11 +3,16 @@ import enchant
 from elasticsearch import Elasticsearch
 import re
 import itertools, nltk, string, gensim
+import pickle
 from nltk.stem import WordNetLemmatizer
 import json
 from itertools import takewhile, tee
 import networkx
 from nltk.corpus import wordnet as wn
+
+def load_obj(name):
+    with open('df/' + name + '.pkl', 'rb') as f:
+        return pickle.load(f)
 
 def lambda_unpack(f):
     return lambda args: f(*args)
@@ -17,22 +22,32 @@ def tfidf(tf,df, N):
     ti = tf * idf
     return ti
 
-def getTermMap(terms, N, threshold):
-    d = enchant.Dict("en_US")
-    with open('englishST.txt') as f:
+def getTermMap(terms, N, sec, threshold):
+    #d = enchant.Dict("en_US")
+    with open('st/englishST.txt') as f:
         stop = f.read()
-    #common = "b,poop,i,ii,iii,v,me,my,myself,we,us,our,ours,ourselves,you,your,yours,yourself,yourselves,he,him,his,himself,she,her,hers,herself,it,its,itself,they,them,their,theirs,themselves,what,which,who,whom,whose,this,that,these,those,am,is,are,was,were,be,been,being,have,has,had,having,do,does,did,doing,will,would,should,can,could,ought,i'm,you're,he's,she's,it's,we're,they're,i've,you've,we've,they've,i'd,you'd,he'd,she'd,we'd,they'd,i'll,you'll,he'll,she'll,we'll,they'll,isn't,aren't,wasn't,weren't,hasn't,haven't,hadn't,doesn't,don't,didn't,won't,wouldn't,shan't,shouldn't,can't,cannot,couldn't,mustn't,let's,that's,who's,what's,here's,there's,when's,where's,why's,how's,a,an,the,and,but,if,or,because,as,until,while,of,at,by,for,with,about,against,between,into,through,during,before,after,above,below,to,from,up,upon,down,in,out,on,off,over,under,again,further,then,once,here,there,when,where,why,how,all,any,both,each,few,more,most,other,some,such,no,nor,not,only,own,same,so,than,too,very,say,says,said,shall,also,a’s, able, about, above, according, accordingly, across, actually, after, afterwards, again, against, ain’t, all, allow, allows, almost, alone, along, already, also, although, always, am, among, amongst, an, and, another, any, anybody, anyhow, anyone, anything, anyway, anyways, anywhere, apart, appear, appreciate, appropriate, are, aren’t, around, as, aside, ask, asking, associated, at, available, away, awfully, be, became, because, become, becomes, becoming, been, before, beforehand, behind, being, believe, below, beside, besides, best, better, between, beyond, both, brief, but, by, c’mon, c’s, came, can, can’t, cannot, cant, cause, causes, certain, certainly, changes, clearly, co, com, come, comes, concerning, consequently, consider, considering, contain, containing, contains, corresponding, could, couldn’t, course, currently, definitely, described, despite, did, didn’t, different, do, does, doesn’t, doing, don’t, done, down, downwards, during, each, edu, eg, eight, either, else, elsewhere, enough, entirely, especially, et, etc, even, ever, every, everybody, everyone, everything, everywhere, ex, exactly, example, except, far, few, fifth, first, five, followed, following, follows, for, former, formerly, forth, four, from, further, furthermore, get, gets, getting, given, gives, go, goes, going, gone, got, gotten, greetings, had, hadn’t, happens, hardly, has, hasn’t, have, haven’t, having, he, he’s, hello, help, hence, her, here, here’s, hereafter, hereby, herein, hereupon, hers, herself, hi, him, himself, his, hither, hopefully, how, howbeit, however, i’d, i’ll, i’m, i’ve, ie, if, ignored, immediate, in, inasmuch, inc, indeed, indicate, indicated, indicates, inner, insofar, instead, into, inward, is, isn’t, it, it’d, it’ll, it’s, its, itself, just, keep, keeps, kept, know, knows, known, last, lately, later, latter, latterly, least, less, lest, let, let’s, like, liked, likely, little, look, looking, looks, ltd, mainly, many, may, maybe, me, mean, meanwhile, merely, might, more, moreover, most, mostly, much, must, my, myself, name, namely, nd, near, nearly, necessary, need, needs, neither, never, nevertheless, new, next, nine, no, nobody, non, none, noone, nor, normally, not, nothing, novel, now, nowhere, obviously, of, off, often, oh, ok, okay, old, on, once, one, ones, only, onto, or, other, others, otherwise, ought, our, ours, ourselves, out, outside, over, overall, own, particular, particularly, per, perhaps, placed, please, plus, possible, presumably, probably, provides, que, quite, qv, rather, rd, re, really, reasonably, regarding, regardless, regards, relatively, respectively, right, said, same, saw, say, saying, says, second, secondly, see, seeing, seem, seemed, seeming, seems, seen, self, selves, sensible, sent, serious, seriously, seven, several, shall, she, should, shouldn’t, since, six, so, some, somebody, somehow, someone, something, sometime, sometimes, somewhat, somewhere, soon, sorry, specified, specify, specifying, still, sub, such, sup, sure, t’s, take, taken, tell, tends, th, than, thank, thanks, thanx, that, that’s, thats, the, their, theirs, them, themselves, then, thence, there, there’s, thereafter, thereby, therefore, therein, theres, thereupon, these, they, they’d, they’ll, they’re, they’ve, think, third, this, thorough, thoroughly, those, though, three, through, throughout, thru, thus, to, together, too, took, toward, towards, tried, tries, truly, try, trying, twice, two, un, under, unfortunately, unless, unlikely, until, unto, up, upon, us, use, used, useful, uses, using, usually, value, various, very, via, viz, vs, want, wants, was, wasn’t, way, we, we’d, we’ll, we’re, we’ve, welcome, well, went, were, weren’t, what, what’s, whatever, when, whence, whenever, where, where’s, whereafter, whereas, whereby, wherein, whereupon, wherever, whether, which, while, whither, who, who’s, whoever, whole, whom, whose, why, will, willing, wish, with, within, without, won’t, wonder, would, would, wouldn’t, yes, yet, you, you’d, you’ll, you’re, you’ve, your, yours, yourself, yourselves, zero";
+    with open('st/'+sec+'ST.txt') as f:
+        fstop = f.read()
     stop_set = set()
-    for x in stop.split(","):
+    for x in stop.split('\n'):
         stop_set.add(x.strip())
-    #print(common_set)
+    for y in fstop.split('\n'):
+        stop_set.add(y.strip())
+
+
+    vecMap = load_obj(sec[0:3]+'DF')
+
     term_map = {}
     for term in terms:
         tmp = re.sub('[!.,?]', '', term)
 
-        if len(tmp) > 1 and (not tmp.isdigit()) and d.check(tmp) and (tmp not in stop_set):
+        if len(tmp) > 1 and (not tmp.isdigit()) and (tmp not in stop_set):  #and d.check(tmp)
             prop = terms[term]
-            df = prop["doc_freq"]
+            #df = prop["doc_freq"]
+            if tmp in vecMap.keys():
+                df = vecMap[tmp]
+            else:
+                df=1
             tf = prop["term_freq"]
             ti = tfidf(tf, df, N)
 
@@ -99,21 +114,21 @@ def assignWeight():
     pass
 
 def initQFormulate(es, qrel, N):
-    patent_document = qrel["_source"]["patent_document"]
+    patent_document = qrel["_source"]["patent-document"]
 
     #print("title:")
     #title
     title_map={}
     #title_chunk_map={}
-    title = patent_document["bibliographic_data"]["technical_data"]["invention_title"]
+    title = patent_document["title"]
     if title != "":
         #print(title)
         rt = es.termvectors(index=qrel["_index"], doc_type=qrel["_type"], id=qrel["_id"], field_statistics=True,
                             term_statistics=True,
-                            fields=["patent_document.bibliographic_data.technical_data.invention_title"], )
-        terms = rt["term_vectors"]["patent_document.bibliographic_data.technical_data.invention_title"]["terms"]
+                            fields=["patent-document.title"])
+        terms = rt["term_vectors"]["patent-document.title"]["terms"]
         ## terms extraction
-        title_map = getTermMap(terms, N, 0.8)
+        title_map = getTermMap(terms, N, 'title', 1)
         ## phrase extraction
         #chunks = extract_chunks(title)
         #title_chunk_map = getChunkMap(chunks,terms,N,0.8)
@@ -130,10 +145,10 @@ def initQFormulate(es, qrel, N):
         #print(abstract)
         rt = es.termvectors(index=qrel["_index"], doc_type=qrel["_type"], id=qrel["_id"], field_statistics=True,
                             term_statistics=True,
-                            fields=["patent_document.abstract"], )
-        terms = rt["term_vectors"]["patent_document.abstract"]["terms"]
+                            fields=["patent-document.abstract"])
+        terms = rt["term_vectors"]["patent-document.abstract"]["terms"]
         ## terms extraction
-        abstract_map = getTermMap(terms, N, 0.8)
+        abstract_map = getTermMap(terms, N, 'abstract', 1)
         ## phrase extraction
         #chunks = extract_chunks(abstract)
         #abstract_chunk_map = getChunkMap(chunks, terms, N, 0.7)
@@ -145,15 +160,15 @@ def initQFormulate(es, qrel, N):
     #description
     description_map={}
     #description_chunk_map={}
-    desciption = patent_document["description"]["content"]
+    desciption = patent_document["description"]
     if desciption != "":
         #print(desciption)
         rt = es.termvectors(index=qrel["_index"], doc_type=qrel["_type"], id=qrel["_id"], field_statistics=True,
                             term_statistics=True,
-                            fields=["patent_document.description.content"], )
-        terms = rt["term_vectors"]["patent_document.description.content"]["terms"]
+                            fields=["patent-document.description"])
+        terms = rt["term_vectors"]["patent-document.description"]["terms"]
         ## terms extraction
-        description_map = getTermMap(terms, N, 0.3)
+        description_map = getTermMap(terms, N, 'description', 1)
         ## phrase extraction
         #chunks = extract_chunks(desciption)
         #description_chunk_map = getChunkMap(chunks, terms, N, 0.3)
@@ -170,10 +185,10 @@ def initQFormulate(es, qrel, N):
         #print(claims)
         rt = es.termvectors(index=qrel["_index"], doc_type=qrel["_type"], id=qrel["_id"], field_statistics=True,
                             term_statistics=True,
-                            fields=["patent_document.claims"], )
-        terms = rt["term_vectors"]["patent_document.claims"]["terms"]
+                            fields=["patent-document.claims"])
+        terms = rt["term_vectors"]["patent-document.claims"]["terms"]
         ## terms extraction
-        claims_map = getTermMap(terms, N, 0.3)
+        claims_map = getTermMap(terms, N, 'claims', 1)
         ## phrase extraction
         #chunks = extract_chunks(claims)
         #claims_chunk_map = getChunkMap(chunks, terms, N, 0.3)
@@ -183,14 +198,14 @@ def initQFormulate(es, qrel, N):
 
     #print("IPCR:")
     #IPCR
-    ipcr = patent_document["bibliographic_data"]["technical_data"]["classifications_ipcr"]["classification_ipcr"]
+    ipcr = patent_document["ipcr"]
     ipcr_l1 = set()
     ipcr_l2 = []
     ipcr_l3 = []
     for ip in ipcr:
-        ipcr_l1.add(ip["content"].split()[0])
-        ipcr_l2.append(ip["content"].split()[0]+' '+ip["content"].split()[1].split('/')[0])
-        ipcr_l3.append(ip["content"].split()[0]+' '+ip["content"].split()[1])
+        ipcr_l1.add(ip.split()[0])
+        ipcr_l2.append(ip.split()[0]+' '+ip.split()[1].split('/')[0])
+        ipcr_l3.append(ip.split()[0]+' '+ip.split()[1])
 
     title_str = ' '.join(list(title_map.keys()))
     abstract_str = ' '.join(list(abstract_map.keys()))
@@ -273,7 +288,7 @@ def retrieve(es, qrel):
                             "fields": ["patent-document.title", "patent-document.abstract",
                                        "patent-document.description", "patent-document.claims"],
                             "query": qrel["title"],
-                            "tie_breaker": 0.3
+                            "tie_breaker": 0.5
                         }
                     }
                 ]
@@ -297,7 +312,8 @@ def retrieve(es, qrel):
                             "fields": ["patent-document.title", "patent-document.abstract",
                                        "patent-document.description", "patent-document.claims"],
                             "query": qrel["abstract"],
-                            "tie_breaker": 0.2
+                            "analyzer":"stop",
+                            "tie_breaker": 0.3
                         }
                     }
                 ]
@@ -368,10 +384,8 @@ def result(qrel, rs):
         for hit in hits:
             if i > 0:
                 ucid = hit['_source']['patent-document']['ucid']
-                file.write(qrel['_source']['PAC'] + " 0 " + ucid + " 1\n")
+                file.write(qrel['_source']['patent-document']['PAC'] + " 0 " + ucid + " 1\n")
             i = i - 1
-
-
 
 
 def main():
@@ -391,8 +405,9 @@ def main():
             'match_all': {}
         }
     }
-    res = es.search(index='qrel', doc_type='doc', body=doc)
-    N = res["hits"]["total"]
+    res = es.search(index='qrel', doc_type='patent', body=doc)
+
+    N = 10469
 
     for qrel in res["hits"]["hits"]:
         iq = initQFormulate(es,qrel,N)
