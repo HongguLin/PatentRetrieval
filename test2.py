@@ -1,7 +1,6 @@
-from elasticsearch import Elasticsearch
-import math
-import pickle
-s = 'abstract'
-print(s[0:3])
+from nltk.stem import PorterStemmer
+x = 'dogs'
+stemmer = PorterStemmer()
+print(stemmer.stem(x))
 
 

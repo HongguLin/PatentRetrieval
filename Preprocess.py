@@ -25,23 +25,23 @@ def abst(abstract):
                 if 'p' in a:
                     if isinstance(a['p'], dict):
                         if '#text' in a['p']:
-                            rt += a['p']['#text']
+                            rt += a['p']['#text'] + ' '
                     if isinstance(a['p'], str):
-                        rt += a['p']
+                        rt += a['p']+ ' '
     elif isinstance(abstract, dict):
         if abstract['@lang'] == 'EN':
             if 'p' in abstract:
                 if isinstance(abstract['p'], dict):
                     if '#text' in abstract['p']:
-                        rt += abstract['p']['#text']
+                        rt += abstract['p']['#text']+' '
                 elif isinstance(abstract['p'], str):
-                    rt += abstract['p']
+                    rt += abstract['p']+' '
                 elif isinstance(abstract['p'], list):
                     for s in abstract['p']:
                         if isinstance(s,str):
-                            rt +=s
+                            rt +=s+' '
                         elif isinstance(s, dict) and '#text' in s:
-                            rt += s['#text']
+                            rt += s['#text']+' '
     rt = clean(rt)
     return rt
 
@@ -66,10 +66,10 @@ def des(description):
         if isinstance(p, list):
             for l in p:
                 if isinstance(l,str):
-                    rt += l
+                    rt += l+' '
                 elif isinstance(l, dict):
                     if '#text' in l and isinstance(l['#text'], str):
-                        rt += l['#text']
+                        rt += l['#text']+' '
         elif isinstance(p, dict):
             pass
         elif isinstance(p, str):
@@ -95,18 +95,18 @@ def cla(claims):
                 if isinstance(cla, list):
                     for c in cla:
                         if 'claim-text' in c and isinstance(c['claim-text'], str):
-                            rt += c['claim-text']
+                            rt += c['claim-text']+' '
                         elif 'claim-text' in c and isinstance(c['claim-text'], dict):
                             if 'claim-text' in c['claim-text'] and isinstance(c['claim-text']['claim-text'], dict):
                                 if 'claim-text' in c['claim-text']['claim-text'] and isinstance(c['claim-text']['claim-text']['claim-text'],list):
                                     for s in c['claim-text']['claim-text']['claim-text']:
                                         if isinstance(s,str):
-                                            rt += s
+                                            rt += s+' '
                             elif '#text' in c['claim-text'] and isinstance(c['claim-text']['#text'], str):
-                                rt += c['claim-text']['#text']
+                                rt += c['claim-text']['#text']+' '
                 elif isinstance(cla, dict):
                     if 'claim-text' in cla and isinstance(cla['claim-text'], str):
-                        rt += cla['claim-text']
+                        rt += cla['claim-text']+' '
 
     elif isinstance(claims, list):
         for co in claims:
@@ -116,22 +116,22 @@ def cla(claims):
                     if isinstance(cla, list):
                         for c in cla:
                             if 'claim-text' in c and isinstance(c['claim-text'], str):
-                                rt += c['claim-text']
+                                rt += c['claim-text']+' '
                             elif 'claim-text' in c and isinstance(c['claim-text'], dict):
                                 if 'claim-text' in c['claim-text'] and isinstance(c['claim-text']['claim-text'], dict):
                                     if 'claim-text' in c['claim-text']['claim-text'] and isinstance(
                                             c['claim-text']['claim-text']['claim-text'], list):
                                         for s in c['claim-text']['claim-text']['claim-text']:
                                             if isinstance(s,str):
-                                                rt += s
+                                                rt += s+' '
                                 elif '#text' in c['claim-text'] and isinstance(c['claim-text']['#text'], str):
-                                    rt += c['claim-text']['#text']
+                                    rt += c['claim-text']['#text']+' '
                     elif isinstance(cla, dict):
                         if 'claim-text' in cla and isinstance(cla['claim-text'], str):
-                            rt += cla['claim-text']
+                            rt += cla['claim-text']+' '
                         if 'claim-text' in cla and isinstance(cla['claim-text'], dict):
                             if '#text' in cla['claim-text'] and isinstance(cla['claim-text']['#text'], str):
-                                rt += cla['claim-text']['#text']
+                                rt += cla['claim-text']['#text']+' '
     rt = clean(rt)
     return rt
 
@@ -165,6 +165,8 @@ def get(path, file):
         with open(os.path.join(my_path, my_file), 'w') as f:
             f.write(jsonStr)
 
+
+# patent preprocess
 def unify_s(path, file):
     with open(os.path.join(path,file), 'r') as f:
         xmlStr = f.read();
@@ -205,7 +207,7 @@ def unify_s(path, file):
         my_file = 'EP-' + file.split('.')[0].split('-')[1] + '.json'
         with open(os.path.join(my_path, my_file), 'w') as f:
             f.write(my_jsonStr)
-
+# patent preprocess
 def unify_m(path, files):
     mis = ['ucid', 'ipcr', 'title', 'abstract', 'description', 'claims']
     ucid = ''
@@ -271,6 +273,7 @@ def unify_m(path, files):
             f.write(my_jsonStr)
 
 
+# qrel preprocess
 def qrel(path,file):
     with open(os.path.join(path, file)) as f:
         xmlStr = f.read()
@@ -312,17 +315,19 @@ def qrel(path,file):
         with open(os.path.join(my_path, my_file), 'w') as f:
             f.write(my_jsonStr)
 
+
 def main():
+
+# qrel preprocess
+
     path = '/Users/linhonggu/Documents/Topics-2010/'
     for filename in os.listdir(path):
         if filename.split(".")[1]=='xml':
             qrel(path,filename)
 
-
-
-
+# patent preprocess
 '''
-def main():
+
     path = '/Volumes/RG/EP/000001'
 
     for path, subdirs, files in os.walk(path):

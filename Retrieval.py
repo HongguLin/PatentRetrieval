@@ -4,6 +4,7 @@ from elasticsearch import Elasticsearch
 import re
 import itertools, nltk, string, gensim
 import pickle
+from nltk.stem import PorterStemmer
 from nltk.stem import WordNetLemmatizer
 import json
 from itertools import takewhile, tee
@@ -22,7 +23,29 @@ def tfidf(tf,df, N):
     ti = tf * idf
     return ti
 
-def getTermMap(terms, N, sec, threshold):
+
+def baseline(terms,sec):
+    with open('st/englishST.txt') as f:
+        stop = f.read()
+    with open('st/'+sec+'ST.txt') as f:
+        fstop = f.read()
+    stop_set = set()
+    for x in stop.split('\n'):
+        stop_set.add(x.strip())
+    for y in fstop.split('\n'):
+        stop_set.add(y.strip())
+
+    rtStr = ''
+    i=0
+
+    for term in terms:
+        tmp = re.sub('[!.,?/]', ' ', term)
+        if len(tmp) > 2 and (not tmp.isdigit()) and (tmp not in stop_set) and i<1000:
+            rtStr += tmp + ' '
+            i +=1
+    return rtStr
+
+def termSelection(terms, N, sec, threshold):
     #d = enchant.Dict("en_US")
     with open('st/englishST.txt') as f:
         stop = f.read()
@@ -41,7 +64,7 @@ def getTermMap(terms, N, sec, threshold):
     for term in terms:
         tmp = re.sub('[!.,?]', '', term)
 
-        if len(tmp) > 1 and (not tmp.isdigit()) and (tmp not in stop_set):  #and d.check(tmp)
+        if len(tmp) > 2 and (not tmp.isdigit()) and (tmp not in stop_set):  #and d.check(tmp)
             prop = terms[term]
             #df = prop["doc_freq"]
             if tmp in vecMap.keys():
@@ -56,15 +79,19 @@ def getTermMap(terms, N, sec, threshold):
     tmp = sorted(term_map.items(), key=lambda x:x[1], reverse=True)
     rt = {}
     i = 0
-    size = len(term_map)*threshold
+    size = min(1000, len(term_map)*threshold)
     for k, v in tmp:
         if i < size:
             rt[k] = v
         i=i+1
-    return rt
+
+    rtstr = ' '.join(list(rt.keys()))
+    return rtstr
 
 def extract_chunks(text, grammar=r'KT: {(<JJ>* <NN.*>+ <IN>)? <JJ>* <NN.*>+}'):
     #lemmatizer = WordNetLemmatizer()
+    stemmer = PorterStemmer()
+
     # exclude candidates that are stop words or entirely punctuation
     punct = set(string.punctuation)
     stop_words = set(nltk.corpus.stopwords.words('english'))
@@ -74,16 +101,29 @@ def extract_chunks(text, grammar=r'KT: {(<JJ>* <NN.*>+ <IN>)? <JJ>* <NN.*>+}'):
     all_chunks = list(itertools.chain.from_iterable(nltk.chunk.tree2conlltags(chunker.parse(tagged_sent))
                                                     for tagged_sent in tagged_sents))
     # join constituent chunk words into a single chunked phrase
-    candidates = [' '.join(word for word, pos, chunk in group).lower()
+    candidates = [' '.join(stemmer.stem(word) for word, pos, chunk in group).lower()
                   for key, group in
                   itertools.groupby(all_chunks, lambda_unpack(lambda word, pos, chunk: chunk != 'O')) if key]
 
-    return [cand for cand in candidates
-            if cand not in stop_words and not all(char in punct for char in cand)]
+    return list(set([cand for cand in candidates
+            if cand not in stop_words and not all(char in punct for char in cand)]))
 
-def getChunkMap(chunks, terms, N, threshold):
+def phraseSelection(chunks, terms, N, sec, threshold):
     #lemmatizer = WordNetLemmatizer()
+    #stemmer = PorterStemmer()
+    with open('st/englishST.txt') as f:
+        stop = f.read()
+    with open('st/'+sec+'ST.txt') as f:
+        fstop = f.read()
+    stop_set = set()
+    for x in stop.split('\n'):
+        stop_set.add(x.strip())
+    for y in fstop.split('\n'):
+        stop_set.add(y.strip())
+
     phrase_map = {}
+    phrase_str = ""
+    br = False
     for ck in chunks:
         mean=0
         l = ck.split(' ')
@@ -91,35 +131,46 @@ def getChunkMap(chunks, terms, N, threshold):
             continue
         for ll in l:
             #t = lemmatizer.lemmatize(ll)
+            #ll = stemmer.stem(ll)
+            if len(ll)<4 and ll in stop_set:
+                br = True
+                break
             if ll in terms.keys():
                 prop = terms[ll]
                 df = prop["doc_freq"]
                 tf = prop["term_freq"]
                 ti = tfidf(tf, df, N)
                 mean += ti
-        mean /= len(l)
-        phrase_map[ck]=mean
+        if not br:
+            mean /= len(l)
+            phrase_map[ck]=mean
+        else:
+            br = False
 
     tmp = sorted(phrase_map.items(), key=lambda x: x[1], reverse=True)
     rt = {}
     i = 0
-    size = len(phrase_map) * threshold
+    size = int(min(len(phrase_map) * threshold, 1000))
+    print("size:",size)
     for k, v in tmp:
+        k = re.sub('[!.,?]', ' ', k)
         if i < size:
             rt[k] = v
+            phrase_str += "\""+k+"\""+" OR "
         i = i + 1
-    return rt
 
-def assignWeight():
-    pass
+    phrase_str = phrase_str[0:-3]
+
+    return phrase_str
+
+
 
 def initQFormulate(es, qrel, N):
     patent_document = qrel["_source"]["patent-document"]
 
-    #print("title:")
     #title
-    title_map={}
-    #title_chunk_map={}
+    title_str = ''
+    title_phrase = ''
     title = patent_document["title"]
     if title != "":
         #print(title)
@@ -127,19 +178,21 @@ def initQFormulate(es, qrel, N):
                             term_statistics=True,
                             fields=["patent-document.title"])
         terms = rt["term_vectors"]["patent-document.title"]["terms"]
+        #print(terms)
+        ## baseline
+        #title_str = baseline(terms, 'title')
         ## terms extraction
-        title_map = getTermMap(terms, N, 'title', 1)
+        #title_str = termSelection(terms, N, 'title', 1)
         ## phrase extraction
-        #chunks = extract_chunks(title)
-        #title_chunk_map = getChunkMap(chunks,terms,N,0.8)
+        chunks = extract_chunks(title)
+        title_phrase = phraseSelection(chunks,terms,N,'title',1)
 
-        print(title_map)
-        #print(title_chunk_map)
+        #print(title_str)
+        print(title_phrase)
 
-    #print("abstract:")
     #abstract
-    abstract_map={}
-    #abstract_chunk_map={}
+    abstract_str=''
+    abstract_phrase = ''
     abstract = patent_document["abstract"]
     if abstract != "":
         #print(abstract)
@@ -147,19 +200,22 @@ def initQFormulate(es, qrel, N):
                             term_statistics=True,
                             fields=["patent-document.abstract"])
         terms = rt["term_vectors"]["patent-document.abstract"]["terms"]
+        #print(terms)
+        ## baseline
+        #abstract_str = baseline(terms, 'abstract')
         ## terms extraction
-        abstract_map = getTermMap(terms, N, 'abstract', 1)
+        #abstract_str = termSelection(terms, N, 'abstract', 1)
         ## phrase extraction
-        #chunks = extract_chunks(abstract)
-        #abstract_chunk_map = getChunkMap(chunks, terms, N, 0.7)
+        chunks = extract_chunks(abstract)
+        abstract_phrase = phraseSelection(chunks, terms, N, 'abstract', 1)
 
-        print(abstract_map)
-        #print(abstract_chunk_map)
+        #print(abstract_str)
+        print(abstract_phrase)
 
     #print("description:")
     #description
-    description_map={}
-    #description_chunk_map={}
+    description_str=''
+    description_phrase = ''
     desciption = patent_document["description"]
     if desciption != "":
         #print(desciption)
@@ -167,19 +223,21 @@ def initQFormulate(es, qrel, N):
                             term_statistics=True,
                             fields=["patent-document.description"])
         terms = rt["term_vectors"]["patent-document.description"]["terms"]
+        ## baseline
+        #description_str = baseline(terms, 'description')
         ## terms extraction
-        description_map = getTermMap(terms, N, 'description', 1)
+        #description_str = termSelection(terms, N, 'description', 1)
         ## phrase extraction
-        #chunks = extract_chunks(desciption)
-        #description_chunk_map = getChunkMap(chunks, terms, N, 0.3)
+        chunks = extract_chunks(desciption)
+        description_phrase = phraseSelection(chunks, terms, N, 'description', 0.9)
 
-        print(description_map)
-        #print(description_chunk_map)
+        #print(description_str)
+        print(description_phrase)
 
     #print("claims:")
     #claims
-    claims_map={}
-    #claims_chunk_map={}
+    claims_str=''
+    claims_phrase = ''
     claims = patent_document["claims"]
     if claims != "":
         #print(claims)
@@ -187,13 +245,15 @@ def initQFormulate(es, qrel, N):
                             term_statistics=True,
                             fields=["patent-document.claims"])
         terms = rt["term_vectors"]["patent-document.claims"]["terms"]
+        ## baseline
+        #claims_str = baseline(terms, 'claims')
         ## terms extraction
-        claims_map = getTermMap(terms, N, 'claims', 1)
+        #claims_str = termSelection(terms, N, 'claims', 1)
         ## phrase extraction
-        #chunks = extract_chunks(claims)
-        #claims_chunk_map = getChunkMap(chunks, terms, N, 0.3)
-        print(claims_map)
-        #print(claims_chunk_map)
+        chunks = extract_chunks(claims)
+        claims_phrase = phraseSelection(chunks, terms, N, 'claims', 0.8)
+        #print(claims_str)
+        print(claims_phrase)
 
 
     #print("IPCR:")
@@ -207,25 +267,24 @@ def initQFormulate(es, qrel, N):
         ipcr_l2.append(ip.split()[0]+' '+ip.split()[1].split('/')[0])
         ipcr_l3.append(ip.split()[0]+' '+ip.split()[1])
 
-    title_str = ' '.join(list(title_map.keys()))
-    abstract_str = ' '.join(list(abstract_map.keys()))
-    description_str = ' '.join(list(description_map.keys()))
-    claims_str = ' '.join(list(claims_map.keys()))
     ipcr_str = ' '.join(list(ipcr_l1))
     print(ipcr_str)
 
     InitQ = {"title": title_str, "abstract": abstract_str, "description": description_str, "claims": claims_str, "ipcr": ipcr_str}
+    InitQP = {"title": title_phrase, "abstract": abstract_phrase, "description": description_phrase, "claims": claims_phrase, "ipcr": ipcr_str}
+
     #print(InitQ)
-    return InitQ
+    return InitQ, InitQP
 
 
 def ReQFormulate(qrel):
     pass
 
 
-def retrieve(es, qrel):
+def retrieve(es, qrel, qrelP):
     #synonym_graph token filter
     #print(' '.join(qrel["title"]))
+    '''
     query = {
         "size": 100,
         "query": {
@@ -272,12 +331,62 @@ def retrieve(es, qrel):
             },
         }
     }
+    '''
 
-    query1 = {
+    query_prase = {
+        "size": 100,
+        "query": {
+            "bool":{
+                "must": [
+                    {"query_string": {
+                        "fields": ["patent-document.title",
+                                   "patent-document.abstract", "patent-document.description",
+                                   "patent-document.claims"],
+                        "query": qrelP["title"]
+                    }
+                    },
+
+                    {"query_string": {
+                        "fields": ["patent-document.title",
+                                   "patent-document.abstract", "patent-document.description",
+                                   "patent-document.claims"],
+                        "query": qrelP["abstract"]
+                    }
+                    },
+
+                    {"query_string": {
+                        "fields": ["patent-document.title",
+                                   "patent-document.abstract", "patent-document.description",
+                                   "patent-document.claims"],
+                        "query": qrelP["description"]
+                    }
+                    },
+
+                    {"query_string": {
+                        "fields": ["patent-document.title",
+                                   "patent-document.abstract", "patent-document.description",
+                                   "patent-document.claims"],
+                        "query": qrelP["claims"]
+                    }
+                    },
+
+                    {"query_string": {
+                        "fields": ["patent-document.ipcr"],
+                        "query": qrelP["ipcr"]
+                    }
+                    }
+
+                ]
+            },
+        }
+
+    }
+
+    query = {
         "size": 100,
         "query": {
             "bool": {
-                "must": [
+                "should": [
                     {
                         "match": {
                             "patent-document.ipcr": qrel["ipcr"]
@@ -285,10 +394,64 @@ def retrieve(es, qrel):
                     },
                     {
                         "multi_match": {
-                            "fields": ["patent-document.title", "patent-document.abstract",
+                            "fields": ["patent-document.title^3", "patent-document.abstract^2",
                                        "patent-document.description", "patent-document.claims"],
                             "query": qrel["title"],
                             "tie_breaker": 0.5
+                        }
+                    },
+                    {
+                        "multi_match": {
+                            "fields": ["patent-document.title^3", "patent-document.abstract^3",
+                                       "patent-document.description^2", "patent-document.claims"],
+                            "query": qrel["abstract"],
+                            "tie_breaker": 0.3
+                        }
+                    },
+                    {
+                        "multi_match": {
+                            "fields": ["patent-document.title", "patent-document.abstract^2",
+                                       "patent-document.description^2", "patent-document.claims"],
+                            "query": qrel["description"],
+                            "tie_breaker": 0.3
+                        }
+                    },
+                    {
+                        "multi_match": {
+                            "fields": ["patent-document.title", "patent-document.abstract",
+                                       "patent-document.description", "patent-document.claims^3"],
+                            "query": qrel["claims"],
+                            "tie_breaker": 0.3
+                        }
+                    }
+
+                ],
+                "minimum_should_match": 3
+            }
+
+        }
+    }
+
+
+    query1 = {
+        "size": 100,
+        "query": {
+            "bool": {
+                "must": [
+                    {
+                        "multi_match": {
+                            "fields": ["patent-document.title", "patent-document.abstract",
+                                       "patent-document.description", "patent-document.claims"],
+                            "query": qrel["title"],
+                            "tie_breaker": 0.3,
+                            "type": "most_fields"
+                        }
+                    }
+                ],
+                "filter":[
+                    {
+                        "match": {
+                            "patent-document.ipcr": qrel["ipcr"]
                         }
                     }
                 ]
@@ -303,17 +466,19 @@ def retrieve(es, qrel):
             "bool": {
                 "must": [
                     {
-                        "match": {
-                            "patent-document.ipcr": qrel["ipcr"]
-                        }
-                    },
-                    {
                         "multi_match": {
                             "fields": ["patent-document.title", "patent-document.abstract",
                                        "patent-document.description", "patent-document.claims"],
                             "query": qrel["abstract"],
-                            "analyzer":"stop",
-                            "tie_breaker": 0.3
+                            "tie_breaker": 0.3,
+                            "type": "most_fields"
+                        }
+                    }
+                ],
+                "filter":[
+                    {
+                        "match": {
+                            "patent-document.ipcr": qrel["ipcr"]
                         }
                     }
                 ]
@@ -327,21 +492,23 @@ def retrieve(es, qrel):
             "bool": {
                 "must": [
                     {
-                        "match": {
-                            "patent-document.ipcr": qrel["ipcr"]
-                        }
-                    },
-                    {
                         "multi_match": {
                             "fields": ["patent-document.title", "patent-document.abstract",
                                        "patent-document.description", "patent-document.claims"],
                             "query": qrel["description"],
-                            "tie_breaker": 0.3
+                            "tie_breaker": 0.3,
+                            "type": "most_fields"
+                        }
+                    }
+                ],
+                "filter": [
+                    {
+                        "match": {
+                            "patent-document.ipcr": qrel["ipcr"]
                         }
                     }
                 ]
             }
-
         }
     }
 
@@ -351,8 +518,53 @@ def retrieve(es, qrel):
             "bool": {
                 "must": [
                     {
+                        "multi_match": {
+                            "fields": ["patent-document.title", "patent-document.abstract",
+                                       "patent-document.description", "patent-document.claims"],
+                            "query": qrel["claims"],
+                            "tie_breaker": 0.3
+                        }
+                    }
+                ],
+                "filter": [
+                    {
                         "match": {
                             "patent-document.ipcr": qrel["ipcr"]
+                        }
+                    }
+                ]
+            }
+
+        }
+    }
+
+    query_comb = {
+        "size": 100,
+        "query": {
+            "bool": {
+                "must": [
+                    {
+                        "multi_match": {
+                            "fields": ["patent-document.title", "patent-document.abstract",
+                                       "patent-document.description", "patent-document.claims"],
+                            "query": qrel["title"],
+                            "tie_breaker": 0.3
+                        }
+                    },
+                    {
+                        "multi_match": {
+                            "fields": ["patent-document.title", "patent-document.abstract",
+                                       "patent-document.description", "patent-document.claims"],
+                            "query": qrel["abstract"],
+                            "tie_breaker": 0.3
+                        }
+                    },
+                    {
+                        "multi_match": {
+                            "fields": ["patent-document.title", "patent-document.abstract",
+                                       "patent-document.description", "patent-document.claims"],
+                            "query": qrel["description"],
+                            "tie_breaker": 0.3
                         }
                     },
                     {
@@ -363,16 +575,24 @@ def retrieve(es, qrel):
                             "tie_breaker": 0.3
                         }
                     }
+                ],
+                "filter": [
+                    {
+                        "match": {
+                            "patent-document.ipcr": qrel["ipcr"]
+                        }
+                    }
                 ]
             }
 
         }
+
     }
 
 
 
 
-    rs = es.search(index="patent", doc_type="patent", body=query2)
+    rs = es.search(index="patent", doc_type="patent", body=query_prase, timeout='60s', request_timeout=60)
     print(rs["hits"]["total"])
     return rs
 
@@ -400,7 +620,7 @@ def main():
 
     es = Elasticsearch(['http://localhost:9200/'])
     doc = {
-        'size': 351,
+        'size': 1351,
         'query': {
             'match_all': {}
         }
@@ -410,8 +630,8 @@ def main():
     N = 10469
 
     for qrel in res["hits"]["hits"]:
-        iq = initQFormulate(es,qrel,N)
-        rs = retrieve(es,iq)
+        iq, iqp = initQFormulate(es,qrel,N)
+        rs = retrieve(es, iq, iqp)
         result(qrel, rs)
 
 

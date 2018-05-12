@@ -18,13 +18,14 @@ def getTermVectors(es,resL,sec):
     l = len(sortedTupes)*0.05
     print(l)
     i=0
-    with open(sec+'ST.txt','w') as f:
+    with open('st/' + sec+'ST.txt','w') as f:
         for tu in sortedTupes:
             if i<l:
                 f.write(tu[0]+'\n')
             i = i+1
 
     return vectorsMap
+
 
 def save_obj(obj, name ):
     with open('df/'+ name + '.pkl', 'wb') as f:
@@ -41,9 +42,10 @@ def main():
             'match_all': {}
         }
     }
-    N = es.count(index='patentcore', doc_type='patent', body=matchAll)['count']
+    N = es.count(index='patent', doc_type='patent', body=matchAll)['count']
     print(N)
-    batches = math.floor(N/10000)
+    #batches = math.floor(N/10000)
+    batches = 20
     query = {
         'size': 10000,
         'query': {
@@ -51,9 +53,10 @@ def main():
         }
     }
     resL=[]
-    res0 = es.search(index='patentcore', doc_type='patent', body=query, scroll='1m')
+    res0 = es.search(index='patent', doc_type='patent', body=query, scroll='1m', timeout='60s', request_timeout=60)
     print(len(res0['hits']['hits']))
     resL.append(res0)
+
     scroll = res0['_scroll_id']
     for i in range(batches):
         res = es.scroll(scroll_id=scroll, scroll='1m')
@@ -61,10 +64,10 @@ def main():
         scroll = res['_scroll_id']
         resL.append(res)
 
-    titVec = getTermVectors(es, resL, 'title')
-    save_obj(titVec, 'titDF')
-    absVec = getTermVectors(es, resL, 'abstract')
-    save_obj(absVec, 'absDF')
+    #titVec = getTermVectors(es, resL, 'title')
+    #save_obj(titVec, 'titDF')
+    #absVec = getTermVectors(es, resL, 'abstract')
+    #save_obj(absVec, 'absDF')
     desVec = getTermVectors(es, resL, 'description')
     save_obj(desVec, 'desDF')
     claVec = getTermVectors(es, resL, 'claims')
