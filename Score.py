@@ -105,10 +105,8 @@ def sort(fM, fN):
                 f.write(key+" 0 "+v+" 1\n")
 
 def main():
-    fm = "/Users/linhonggu/Desktop/result.txt"
-    #fn = "/Users/linhonggu/Desktop/sortedResult.txt"
-    ft = "/Users/linhonggu/Documents/PAC-Qrels/PAC_qrels_21_EN_mark.txt"
-    #sort(fm,fn)
+    fm = "result.txt"
+    ft = "PAC_qrels_21_EN_mark.txt"
     compare(ft, fm)
 
 
