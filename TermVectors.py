@@ -1,6 +1,8 @@
 from elasticsearch import Elasticsearch
 import math
 import pickle
+
+# write the patent field specific stop word in the stop word list and return the document frequency map
 def getTermVectors(es,resL,sec):
     vectorsMap = {}
     for res in resL:
@@ -26,15 +28,17 @@ def getTermVectors(es,resL,sec):
 
     return vectorsMap
 
-
+# save the document frequency map object
 def save_obj(obj, name ):
     with open('df/'+ name + '.pkl', 'wb') as f:
         pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
 
+# load the document frequency map object
 def load_obj(name ):
     with open('df/' + name + '.pkl', 'rb') as f:
         return pickle.load(f)
 
+# obtain the stop word list and the document frequency map for each field in the patent documents
 def main():
     es = Elasticsearch(['http://localhost:9200/'])
     matchAll = {
@@ -64,10 +68,10 @@ def main():
         scroll = res['_scroll_id']
         resL.append(res)
 
-    #titVec = getTermVectors(es, resL, 'title')
-    #save_obj(titVec, 'titDF')
-    #absVec = getTermVectors(es, resL, 'abstract')
-    #save_obj(absVec, 'absDF')
+    titVec = getTermVectors(es, resL, 'title')
+    save_obj(titVec, 'titDF')
+    absVec = getTermVectors(es, resL, 'abstract')
+    save_obj(absVec, 'absDF')
     desVec = getTermVectors(es, resL, 'description')
     save_obj(desVec, 'desDF')
     claVec = getTermVectors(es, resL, 'claims')

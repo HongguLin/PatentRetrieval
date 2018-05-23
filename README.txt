@@ -10,9 +10,7 @@ file(PAC_qrels_21_EN_mark.txt).
 TermVectors.py: generate the field-specific stop word lists and the field-specific term document frequency maps, these
 stop word lists and maps are used in the query formulation process.
 
-AddQkey.py: add query key to the related patents.
+VisDataPrepare.py: prepare the patent data used in the visualization experiment, such as 'add query key to the related patents',
+'mark the result list with lang tag(EN, FR or DE)', 'extract the related patents in the result list and these related patents is used to be stored in the MongoDB used by
+the patent retrieval result visualization website'.
 
-ExtractCorePatent.py: extract the related patents in the result list and these related patents is used to be stored in
-the MongoDB used by the patent retrieval result visualization website.
-
-Mark.py: mark the result list with lang tag(EN, FR or DE).

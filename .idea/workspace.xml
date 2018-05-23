@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="def7dae1-c4f4-4c86-a68e-10940f12f1a0" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Preprocess.py" afterPath="$PROJECT_DIR$/Preprocess.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.txt" afterPath="$PROJECT_DIR$/README.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TermVectors.py" afterPath="$PROJECT_DIR$/TermVectors.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -14,9 +15,9 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/PatentRetrieval$Mark.coverage" NAME="Mark Coverage Results" MODIFIED="1520859270176" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/PatentRetrieval$Retrieval.coverage" NAME="Retrieval Coverage Results" MODIFIED="1527058661293" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PatentRetrieval$Retrieval.coverage" NAME="Retrieval Coverage Results" MODIFIED="1527062081153" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PatentRetrieval$AddQkey.coverage" NAME="AddQkey Coverage Results" MODIFIED="1525070852959" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/PatentRetrieval$Score.coverage" NAME="Score Coverage Results" MODIFIED="1527058697367" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PatentRetrieval$Score.coverage" NAME="Score Coverage Results" MODIFIED="1527062106609" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PatentRetrieval$test2.coverage" NAME="test2 Coverage Results" MODIFIED="1526261671010" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PatentRetrieval$ExtractCorePatent.coverage" NAME="ExtractCorePatent Coverage Results" MODIFIED="1524542093484" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/PatentRetrieval$Index.coverage" NAME="Index Coverage Results" MODIFIED="1519646017608" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -31,87 +32,26 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Retrieval.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Retrieval.py">
+      <file leaf-file-name="README.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/README.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="28" column="28" lean-forward="true" selection-start-line="28" selection-start-column="28" selection-end-line="28" selection-end-column="28" />
-              <folding>
-                <element signature="e#364#438#0" expanded="false" />
-                <element signature="e#557#609#0" expanded="false" />
-                <element signature="e#670#1185#0" expanded="false" />
-                <element signature="e#1271#2338#0" expanded="false" />
-                <element signature="e#3686#5026#0" expanded="false" />
-                <element signature="e#5132#5874#0" expanded="false" />
-                <element signature="e#5983#6996#0" expanded="false" />
-                <element signature="e#7062#11132#0" expanded="false" />
-                <element signature="e#11195#11199#0" expanded="false" />
-                <element signature="e#11273#29771#0" expanded="false" />
-                <element signature="e#11308#12112#0" expanded="false" />
-                <element signature="e#12156#12962#0" expanded="false" />
-                <element signature="e#13009#13819#0" expanded="false" />
-                <element signature="e#13861#14616#0" expanded="false" />
-                <element signature="e#14661#16140#0" expanded="false" />
-                <element signature="e#16185#18150#0" expanded="false" />
-                <element signature="e#18213#21429#0" expanded="false" />
-                <element signature="e#21491#24902#0" expanded="false" />
-                <element signature="e#24988#29607#0" expanded="false" />
-                <element signature="e#30211#30604#0" expanded="false" />
-                <marker date="1527061683927" expanded="false" signature="2495:3571" ph="..." />
-                <marker date="1527061683927" expanded="false" signature="29839:30176" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Preprocess.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Preprocess.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="293" column="19" lean-forward="false" selection-start-line="293" selection-start-column="19" selection-end-line="293" selection-end-column="19" />
-              <folding>
-                <element signature="e#104#369#0" expanded="false" />
-                <element signature="e#417#1481#0" expanded="false" />
-                <element signature="e#1522#1814#0" expanded="false" />
-                <element signature="e#1867#2355#0" expanded="false" />
-                <element signature="e#2398#2523#0" expanded="false" />
-                <element signature="e#2566#5533#0" expanded="false" />
-                <element signature="e#5584#7468#0" expanded="false" />
-                <element signature="e#7518#10376#0" expanded="false" />
-                <element signature="e#12350#12535#0" expanded="false" />
-                <element signature="e#12555#13018#1" expanded="false" />
-                <marker date="1527061818146" expanded="false" signature="10414:12314" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AddQkey.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/AddQkey.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="18" column="18" lean-forward="false" selection-start-line="18" selection-start-column="18" selection-end-line="18" selection-end-column="18" />
+            <state relative-caret-position="165">
+              <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ExtractCorePatent.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ExtractCorePatent.py">
+      <file leaf-file-name="TermVectors.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/TermVectors.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="195">
-              <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Mark.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Mark.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-              <folding />
+              <caret line="40" column="97" lean-forward="false" selection-start-line="40" selection-start-column="97" selection-end-line="40" selection-end-column="97" />
+              <folding>
+                <element signature="e#208#1149#0" expanded="false" />
+                <element signature="e#1222#1320#0" expanded="false" />
+                <element signature="e#1576#2666#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -142,22 +82,23 @@
         <option value="$PROJECT_DIR$/Mark.py" />
         <option value="$PROJECT_DIR$/run.sh" />
         <option value="$PROJECT_DIR$/test3.py" />
-        <option value="$PROJECT_DIR$/ExtractCorePatent.py" />
         <option value="$PROJECT_DIR$/titleST.txt" />
         <option value="$PROJECT_DIR$/englishST.txt" />
         <option value="$PROJECT_DIR$/AddQkey.py" />
         <option value="$PROJECT_DIR$/test.py" />
-        <option value="$PROJECT_DIR$/TermVectors.py" />
         <option value="$PROJECT_DIR$/st/abstractST.txt" />
         <option value="$PROJECT_DIR$/st/titleST.txt" />
         <option value="$PROJECT_DIR$/st/claimsST.txt" />
         <option value="$PROJECT_DIR$/st/descriptionST.txt" />
         <option value="$PROJECT_DIR$/test2.py" />
-        <option value="$PROJECT_DIR$/Score.py" />
-        <option value="$PROJECT_DIR$/README.txt" />
-        <option value="$PROJECT_DIR$/result.txt" />
         <option value="$PROJECT_DIR$/Retrieval.py" />
         <option value="$PROJECT_DIR$/Preprocess.py" />
+        <option value="$PROJECT_DIR$/Score.py" />
+        <option value="$PROJECT_DIR$/result.txt" />
+        <option value="$PROJECT_DIR$/ExtractCorePatent.py" />
+        <option value="$PROJECT_DIR$/VisDataPrepare.py" />
+        <option value="$PROJECT_DIR$/TermVectors.py" />
+        <option value="$PROJECT_DIR$/README.txt" />
       </list>
     </option>
   </component>
@@ -616,7 +557,28 @@
       <option name="project" value="LOCAL" />
       <updated>1527061700771</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="add comment to preprocess.py">
+      <created>1527061829795</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1527061829795</updated>
+    </task>
+    <task id="LOCAL-00008" summary="add comments to score.py">
+      <created>1527062154531</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1527062154531</updated>
+    </task>
+    <task id="LOCAL-00009" summary="add comment to visdataprepare.py">
+      <created>1527062893514</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1527062893514</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -659,7 +621,10 @@
     <MESSAGE value="update" />
     <MESSAGE value="add readme" />
     <MESSAGE value="add comment to retrieval.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="add comment to retrieval.py" />
+    <MESSAGE value="add comment to preprocess.py" />
+    <MESSAGE value="add comments to score.py" />
+    <MESSAGE value="add comment to visdataprepare.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="add comment to visdataprepare.py" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -887,59 +852,45 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.txt">
+    <entry file="file://$PROJECT_DIR$/result.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="49" lean-forward="false" selection-start-line="12" selection-start-column="49" selection-end-line="12" selection-end-column="49" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TermVectors.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
-          <caret line="68" column="50" lean-forward="false" selection-start-line="68" selection-start-column="50" selection-end-line="68" selection-end-column="50" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Score.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="507">
-          <caret line="108" column="35" lean-forward="false" selection-start-line="108" selection-start-column="35" selection-end-line="108" selection-end-column="35" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AddQkey.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="18" column="18" lean-forward="false" selection-start-line="18" selection-start-column="18" selection-end-line="18" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ExtractCorePatent.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Mark.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/result.txt">
-      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#46#67#0" expanded="false" />
+            <element signature="e#122#399#0" expanded="false" />
+            <element signature="e#458#702#0" expanded="false" />
+            <element signature="e#845#2131#0" expanded="false" />
+            <element signature="e#2169#2242#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Preprocess.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="293" column="19" lean-forward="false" selection-start-line="293" selection-start-column="19" selection-end-line="293" selection-end-column="19" />
+          <folding>
+            <element signature="e#104#369#0" expanded="false" />
+            <element signature="e#417#1481#0" expanded="false" />
+            <element signature="e#1522#1814#0" expanded="false" />
+            <element signature="e#1867#2355#0" expanded="false" />
+            <element signature="e#2398#2523#0" expanded="false" />
+            <element signature="e#2566#5533#0" expanded="false" />
+            <element signature="e#5584#7468#0" expanded="false" />
+            <element signature="e#7518#10376#0" expanded="false" />
+            <element signature="e#12350#12535#0" expanded="false" />
+            <element signature="e#12555#13018#1" expanded="false" />
+            <marker date="1527061818146" expanded="false" signature="10414:12314" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -974,22 +925,52 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Preprocess.py">
+    <entry file="file://$PROJECT_DIR$/AddQkey.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="293" column="19" lean-forward="false" selection-start-line="293" selection-start-column="19" selection-end-line="293" selection-end-column="19" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="1" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Mark.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="17" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/VisDataPrepare.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="82" column="0" lean-forward="false" selection-start-line="82" selection-start-column="0" selection-end-line="82" selection-end-column="0" />
           <folding>
-            <element signature="e#104#369#0" expanded="false" />
-            <element signature="e#417#1481#0" expanded="false" />
-            <element signature="e#1522#1814#0" expanded="false" />
-            <element signature="e#1867#2355#0" expanded="false" />
-            <element signature="e#2398#2523#0" expanded="false" />
-            <element signature="e#2566#5533#0" expanded="false" />
-            <element signature="e#5584#7468#0" expanded="false" />
-            <element signature="e#7518#10376#0" expanded="false" />
-            <element signature="e#12350#12535#0" expanded="false" />
-            <element signature="e#12555#13018#1" expanded="false" />
-            <marker date="1527061818146" expanded="false" signature="10414:12314" ph="..." />
+            <element signature="e#0#9#0" expanded="true" />
+            <element signature="e#2608#3001#0" expanded="false" />
+            <element signature="e#3039#3423#0" expanded="false" />
+            <marker date="1527062878437" expanded="false" signature="131:796" ph="..." />
+            <marker date="1527062878437" expanded="false" signature="853:2554" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/TermVectors.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="40" column="97" lean-forward="false" selection-start-line="40" selection-start-column="97" selection-end-line="40" selection-end-column="97" />
+          <folding>
+            <element signature="e#208#1149#0" expanded="false" />
+            <element signature="e#1222#1320#0" expanded="false" />
+            <element signature="e#1576#2666#0" expanded="false" />
           </folding>
         </state>
       </provider>
