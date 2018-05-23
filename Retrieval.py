@@ -11,6 +11,7 @@ from itertools import takewhile, tee
 import networkx
 from nltk.corpus import wordnet as wn
 
+# load document frequency map
 def load_obj(name):
     with open('df/' + name + '.pkl', 'rb') as f:
         return pickle.load(f)
@@ -18,12 +19,14 @@ def load_obj(name):
 def lambda_unpack(f):
     return lambda args: f(*args)
 
+# calculate and return TF*IDF score
 def tfidf(tf,df, N):
     idf = math.log(N/df)
     ti = tf * idf
     return ti
 
 
+# baseline query formulation
 def baseline(terms,sec):
     with open('st/englishST.txt') as f:
         stop = f.read()
@@ -45,6 +48,7 @@ def baseline(terms,sec):
             i +=1
     return rtStr
 
+# term selection query formulation
 def termSelection(terms, N, sec, threshold):
     #d = enchant.Dict("en_US")
     with open('st/englishST.txt') as f:
@@ -88,7 +92,8 @@ def termSelection(terms, N, sec, threshold):
     rtstr = ' '.join(list(rt.keys()))
     return rtstr
 
-
+## key phrase selection query formulation
+ # extract noun phrase candidates
 def extract_chunks(text, grammar=r'KT: {(<JJ>* <NN.*>+ <IN>)? <JJ>* <NN.*>+}'):
     #lemmatizer = WordNetLemmatizer()
     stemmer = PorterStemmer()
@@ -108,10 +113,9 @@ def extract_chunks(text, grammar=r'KT: {(<JJ>* <NN.*>+ <IN>)? <JJ>* <NN.*>+}'):
 
     return list(set([cand for cand in candidates
             if cand not in stop_words and not all(char in punct for char in cand)]))
-
+ #
+ # select key phrase within the noun phrase candidates
 def phraseSelection(chunks, terms, N, sec, threshold):
-    #lemmatizer = WordNetLemmatizer()
-    #stemmer = PorterStemmer()
     with open('st/englishST.txt') as f:
         stop = f.read()
     with open('st/'+sec+'ST.txt') as f:
@@ -131,8 +135,6 @@ def phraseSelection(chunks, terms, N, sec, threshold):
         if len(l)>3 or len(l)==1:
             continue
         for ll in l:
-            #t = lemmatizer.lemmatize(ll)
-            #ll = stemmer.stem(ll)
             if len(ll)<4 and ll in stop_set:
                 br = True
                 break
@@ -152,7 +154,6 @@ def phraseSelection(chunks, terms, N, sec, threshold):
     rt = {}
     i = 0
     size = int(min(len(phrase_map) * threshold, 1000))
-    print("size:",size)
     if(size>0):
         for k, v in tmp:
             k = re.sub('[!.,?]', ' ', k)
@@ -168,7 +169,7 @@ def phraseSelection(chunks, terms, N, sec, threshold):
     return phrase_str
 
 
-
+# extract common term within four different sections
 def extract_common_term(tit, abst, des, cla):
     title = set(tit.split())
     abstract = set(abst.split())
@@ -196,6 +197,7 @@ def extract_common_term(tit, abst, des, cla):
 
     return {'com2':com2, 'com3':com3, 'com4':com4}
 
+# extract common phrase within four different sections
 def extract_common_phrase(tit, abst, des, cla):
     if tit == '':
         title = set([])
@@ -239,7 +241,7 @@ def extract_common_phrase(tit, abst, des, cla):
     return {'com2':com2, 'com3':com3, 'com4':com4}
 
 
-
+# initial query formulate
 def initQFormulate(es, qrel, N):
     patent_document = qrel["_source"]["patent-document"]
 
@@ -248,16 +250,17 @@ def initQFormulate(es, qrel, N):
     title_phrase = ''
     title = patent_document["title"]
     if title != "":
-        #print(title)
         rt = es.termvectors(index=qrel["_index"], doc_type=qrel["_type"], id=qrel["_id"], field_statistics=True,
                             term_statistics=True,
                             fields=["patent-document.title"])
         terms = rt["term_vectors"]["patent-document.title"]["terms"]
-        #print(terms)
+
         ## baseline
         title_str = baseline(terms, 'title')
+
         ## terms extraction
         #title_str = termSelection(terms, N, 'title', 1)
+
         ## phrase extraction
         chunks = extract_chunks(title)
         title_phrase = phraseSelection(chunks,terms,N,'title',1)
@@ -270,16 +273,17 @@ def initQFormulate(es, qrel, N):
     abstract_phrase = ''
     abstract = patent_document["abstract"]
     if abstract != "":
-        #print(abstract)
         rt = es.termvectors(index=qrel["_index"], doc_type=qrel["_type"], id=qrel["_id"], field_statistics=True,
                             term_statistics=True,
                             fields=["patent-document.abstract"])
         terms = rt["term_vectors"]["patent-document.abstract"]["terms"]
-        #print(terms)
+
         ## baseline
         abstract_str = baseline(terms, 'abstract')
+
         ## terms extraction
         #abstract_str = termSelection(terms, N, 'abstract', 1)
+
         ## phrase extraction
         chunks = extract_chunks(abstract)
         abstract_phrase = phraseSelection(chunks, terms, N, 'abstract', 1)
@@ -287,13 +291,11 @@ def initQFormulate(es, qrel, N):
         #print(abstract_str)
         #print(abstract_phrase)
 
-    #print("description:")
     #description
     description_str=''
     description_phrase = ''
     desciption = patent_document["description"]
     if desciption != "":
-        #print(desciption)
         rt = es.termvectors(index=qrel["_index"], doc_type=qrel["_type"], id=qrel["_id"], field_statistics=True,
                             term_statistics=True,
                             fields=["patent-document.description"])
@@ -302,6 +304,7 @@ def initQFormulate(es, qrel, N):
         description_str = baseline(terms, 'description')
         ## terms extraction
         #description_str = termSelection(terms, N, 'description', 1)
+
         ## phrase extraction
         chunks = extract_chunks(desciption)
         description_phrase = phraseSelection(chunks, terms, N, 'description', 0.9)
@@ -309,29 +312,29 @@ def initQFormulate(es, qrel, N):
         #print(description_str)
         #print(description_phrase)
 
-    #print("claims:")
     #claims
     claims_str=''
     claims_phrase = ''
     claims = patent_document["claims"]
     if claims != "":
-        #print(claims)
         rt = es.termvectors(index=qrel["_index"], doc_type=qrel["_type"], id=qrel["_id"], field_statistics=True,
                             term_statistics=True,
                             fields=["patent-document.claims"])
         terms = rt["term_vectors"]["patent-document.claims"]["terms"]
         ## baseline
         claims_str = baseline(terms, 'claims')
+
         ## terms extraction
         #claims_str = termSelection(terms, N, 'claims', 1)
+
         ## phrase extraction
         chunks = extract_chunks(claims)
         claims_phrase = phraseSelection(chunks, terms, N, 'claims', 0.8)
+
         #print(claims_str)
         #print(claims_phrase)
 
 
-    #print("IPCR:")
     #IPCR
     ipcr = patent_document["ipcr"]
     ipcr_l1 = set()
@@ -343,210 +346,24 @@ def initQFormulate(es, qrel, N):
         ipcr_l3.append(ip.split()[0]+' '+ip.split()[1])
 
     ipcr_str = ' '.join(list(ipcr_l1))
-    print(ipcr_str)
+    #print(ipcr_str)
 
 
     InitQ = {"title": title_str, "abstract": abstract_str, "description": description_str, "claims": claims_str, "ipcr": ipcr_str}
     InitQP = {"title": title_phrase, "abstract": abstract_phrase, "description": description_phrase, "claims": claims_phrase, "ipcr": ipcr_str}
-
     InitQCom = extract_common_term(title_str, abstract_str, description_str, claims_str)
     InitQPCom = extract_common_phrase(title_phrase, abstract_phrase, description_phrase, claims_phrase)
-    print(InitQCom)
-    #print(InitQPCom)
-    #print(InitQ)
+
     return InitQ, InitQP, InitQCom, InitQPCom
 
-
+# query reformulate[future work]
 def ReQFormulate(qrel):
     pass
 
-
+# retrieve query
 def retrieve(es, qrel, qrelP, qrelCom, qrelPCom):
-    #synonym_graph token filter
-    #print(' '.join(qrel["title"]))
-    '''
-    query = {
-        "size": 100,
-        "query": {
-            "bool":{
-                "should": [
-                    {"query_string": {
-                        "fields": ["patent-document.title^5",
-                                   "patent-document.abstract^3", "patent-document.description",
-                                   "patent-document.claims"],
-                        "query": qrel["title"]
-                    }
-                    },
 
-                    {"query_string": {
-                        "fields": ["patent-document.abstract^3", "patent-document.description",
-                                   "patent-document.claims"],
-                        "query": qrel["abstract"]
-                    }
-                    },
-
-                    {"query_string": {
-                        "fields": ["patent-document.description"],
-                        "query": qrel["description"]
-                    }
-                    },
-
-                    {"query_string": {
-                        "fields": ["patent-document.claims"],
-                        "query": qrel["claims"]
-                    }
-                    },
-
-                    {"query_string": {
-                        "fields": ["patent-document.ipcr"],
-                        "query": qrel["ipcr"]
-                    }
-                    }
-
-                ]
-                ,
-                "minimum_should_match": 1,
-                "boost": 1.0
-
-            },
-        }
-    }
-    '''
-
-    query_prase = {
-        "size": 100,
-        "query": {
-            "bool":{
-                "should": [
-                    {"query_string": {
-                        "fields": ["patent-document.title",
-                                   "patent-document.abstract", "patent-document.description",
-                                   "patent-document.claims"],
-                        "query": qrelP["title"]
-                    }
-                    },
-
-                    {"query_string": {
-                        "fields": ["patent-document.title",
-                                   "patent-document.abstract", "patent-document.description",
-                                   "patent-document.claims"],
-                        "query": qrelP["abstract"]
-                    }
-                    },
-
-                    {"query_string": {
-                        "fields": ["patent-document.title",
-                                   "patent-document.abstract", "patent-document.description",
-                                   "patent-document.claims"],
-                        "query": qrelP["description"]
-                    }
-                    },
-
-                    {"query_string": {
-                        "fields": ["patent-document.title",
-                                   "patent-document.abstract", "patent-document.description",
-                                   "patent-document.claims"],
-                        "query": qrelP["claims"]
-                    }
-                    }
-                ],
-                "must": [
-                    {
-                        "multi_match": {
-                            "fields": ["patent-document.title", "patent-document.abstract",
-                                       "patent-document.description", "patent-document.claims"],
-                            "query": qrel["title"],
-                            "tie_breaker": 0.3
-                        }
-                    },
-                    {
-                        "multi_match": {
-                            "fields": ["patent-document.title", "patent-document.abstract",
-                                       "patent-document.description", "patent-document.claims"],
-                            "query": qrel["abstract"],
-                            "tie_breaker": 0.3
-                        }
-                    },
-                    {
-                        "multi_match": {
-                            "fields": ["patent-document.title", "patent-document.abstract",
-                                       "patent-document.description", "patent-document.claims"],
-                            "query": qrel["description"],
-                            "tie_breaker": 0.3
-                        }
-                    },
-                    {
-                        "multi_match": {
-                            "fields": ["patent-document.title", "patent-document.abstract",
-                                       "patent-document.description", "patent-document.claims"],
-                            "query": qrel["claims"],
-                            "tie_breaker": 0.3
-                        }
-                    }
-                ],
-                "filter": [
-                    {
-                        "match": {
-                            "patent-document.ipcr": qrel["ipcr"]
-                        }
-                    }
-                ]
-            }
-        }
-
-    }
-
-    query = {
-        "size": 100,
-        "query": {
-            "bool": {
-                "should": [
-                    {
-                        "match": {
-                            "patent-document.ipcr": qrel["ipcr"]
-                        }
-                    },
-                    {
-                        "multi_match": {
-                            "fields": ["patent-document.title^3", "patent-document.abstract^2",
-                                       "patent-document.description", "patent-document.claims"],
-                            "query": qrel["title"],
-                            "tie_breaker": 0.5
-                        }
-                    },
-                    {
-                        "multi_match": {
-                            "fields": ["patent-document.title^3", "patent-document.abstract^3",
-                                       "patent-document.description^2", "patent-document.claims"],
-                            "query": qrel["abstract"],
-                            "tie_breaker": 0.3
-                        }
-                    },
-                    {
-                        "multi_match": {
-                            "fields": ["patent-document.title", "patent-document.abstract^2",
-                                       "patent-document.description^2", "patent-document.claims"],
-                            "query": qrel["description"],
-                            "tie_breaker": 0.3
-                        }
-                    },
-                    {
-                        "multi_match": {
-                            "fields": ["patent-document.title", "patent-document.abstract",
-                                       "patent-document.description", "patent-document.claims^3"],
-                            "query": qrel["claims"],
-                            "tie_breaker": 0.3
-                        }
-                    }
-
-                ],
-                "minimum_should_match": 3
-            }
-
-        }
-    }
-
-
+    # title section query
     query1 = {
         "size": 100,
         "query": {
@@ -574,6 +391,7 @@ def retrieve(es, qrel, qrelP, qrelCom, qrelPCom):
         }
     }
 
+    # abstract section query
     query2 = {
         "size": 100,
         "query": {
@@ -600,6 +418,7 @@ def retrieve(es, qrel, qrelP, qrelCom, qrelPCom):
         }
     }
 
+    # description section query
     query3 = {
         "size": 100,
         "query": {
@@ -626,6 +445,7 @@ def retrieve(es, qrel, qrelP, qrelCom, qrelPCom):
         }
     }
 
+    # claims section query
     query4 = {
         "size": 100,
         "query": {
@@ -652,7 +472,56 @@ def retrieve(es, qrel, qrelP, qrelCom, qrelPCom):
         }
     }
 
-    query_comb = {
+    # combination1 query
+    query_comb1 = {
+        "size": 100,
+        "query": {
+            "bool": {
+                "must": [
+                    {
+                        "multi_match": {
+                            "fields": ["patent-document.title"],
+                            "query": qrel["title"],
+                            "tie_breaker": 0.3
+                        }
+                    },
+                    {
+                        "multi_match": {
+                            "fields": ["patent-document.abstract"],
+                            "query": qrel["abstract"],
+                            "tie_breaker": 0.3
+                        }
+                    },
+                    {
+                        "multi_match": {
+                            "fields": ["patent-document.description"],
+                            "query": qrel["description"],
+                            "tie_breaker": 0.3
+                        }
+                    },
+                    {
+                        "multi_match": {
+                            "fields": ["patent-document.claims"],
+                            "query": qrel["claims"],
+                            "tie_breaker": 0.3
+                        }
+                    }
+                ],
+                "filter": [
+                    {
+                        "match": {
+                            "patent-document.ipcr": qrel["ipcr"]
+                        }
+                    }
+                ]
+            }
+
+        }
+
+    }
+
+    # combination2 query
+    query_comb2 = {
         "size": 100,
         "query": {
             "bool": {
@@ -703,6 +572,7 @@ def retrieve(es, qrel, qrelP, qrelCom, qrelPCom):
 
     }
 
+    # combination2 + common term query
     query_comm_term = {
         "size": 100,
         "query": {
@@ -780,8 +650,8 @@ def retrieve(es, qrel, qrelP, qrelCom, qrelPCom):
 
     }
 
-
-    query_phrase_comm = {
+    # combination2 + phrase search query
+    query_phrase = {
         "size": 100,
         "query": {
             "bool": {
@@ -812,53 +682,6 @@ def retrieve(es, qrel, qrelP, qrelCom, qrelPCom):
                                    "patent-document.abstract", "patent-document.description",
                                    "patent-document.claims"],
                         "query": qrelP["claims"]
-                    }
-                    },
-
-                    {
-                        "multi_match": {
-                            "fields": ["patent-document.title", "patent-document.abstract",
-                                       "patent-document.description", "patent-document.claims"],
-                            "query": qrelCom["com2"],
-                            "tie_breaker": 0.3
-                        }
-                    },
-                    {
-                        "multi_match": {
-                            "fields": ["patent-document.title", "patent-document.abstract",
-                                       "patent-document.description", "patent-document.claims"],
-                            "query": qrelCom["com3"],
-                            "tie_breaker": 0.3
-                        }
-                    },
-                    {
-                        "multi_match": {
-                            "fields": ["patent-document.title", "patent-document.abstract",
-                                       "patent-document.description", "patent-document.claims"],
-                            "query": qrelCom["com4"],
-                            "tie_breaker": 0.3
-                        }
-                    },
-
-                    {"query_string": {
-                        "fields": ["patent-document.title",
-                                   "patent-document.abstract", "patent-document.description",
-                                   "patent-document.claims"],
-                        "query": qrelPCom["com2"]
-                    }
-                    },
-                    {"query_string": {
-                        "fields": ["patent-document.title",
-                                   "patent-document.abstract", "patent-document.description",
-                                   "patent-document.claims"],
-                        "query": qrelPCom["com3"]
-                    }
-                    },
-                    {"query_string": {
-                        "fields": ["patent-document.title",
-                                   "patent-document.abstract", "patent-document.description",
-                                   "patent-document.claims"],
-                        "query": qrelPCom["com4"]
                     }
                     }
                 ],
@@ -907,8 +730,7 @@ def retrieve(es, qrel, qrelP, qrelCom, qrelPCom):
         }
     }
 
-
-
+    # combination2 + phrase search + common term query
     query_phrase_comm_term = {
         "size": 100,
         "query": {
@@ -1014,11 +836,11 @@ def retrieve(es, qrel, qrelP, qrelCom, qrelPCom):
 
     }
 
-    rs = es.search(index="patent", doc_type="patent", body=query_phrase_comm, timeout='60s', request_timeout=60)
+    rs = es.search(index="patent", doc_type="patent", body=query_phrase_comm_term, timeout='60s', request_timeout=60)
     print(rs["hits"]["total"])
     return rs
 
-
+# write the retrieval result to 'result.txt'
 def result(qrel, rs):
     hits = rs['hits']['hits']
     i = min(rs["hits"]["total"], 100)
@@ -1030,16 +852,8 @@ def result(qrel, rs):
             i = i - 1
 
 
+# main function
 def main():
-    '''
-    for qrel in qrels:
-        InitQFormulate(qrel)
-        retrieve()
-        ReQFormulate()
-        retrieve()
-        result()
-    '''
-
     es = Elasticsearch(['http://localhost:9200/'])
     doc = {
         'size': 1351,

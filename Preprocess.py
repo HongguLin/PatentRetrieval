@@ -135,36 +135,6 @@ def cla(claims):
     rt = clean(rt)
     return rt
 
-def get(path, file):
-    with open(os.path.join(path,file), 'r') as f:
-        xmlStr = f.read()
-    jsonStr = json.dumps(xmltodict.parse(xmlStr), indent=4)
-    jsonObj = json.loads(jsonStr)
-
-    lang = jsonObj['patent-document']['@lang']
-    if lang == 'EN':
-        ucid = jsonObj['patent-document']['@ucid']
-        if 'abstract' in jsonObj['patent-document']:
-            abstract = abst(jsonObj['patent-document']['abstract'])
-        if 'description' in jsonObj['patent-document']:
-            description = des(jsonObj['patent-document']['description'])
-        if 'claims' in jsonObj['patent-document']:
-            claims = cla(jsonObj['patent-document']['claims'])
-        if 'technical-data' in jsonObj['patent-document']:
-            if 'invention-title' in jsonObj['patent-document']['technical-data']:
-                title = tit(jsonObj['patent-document']['bibliographic-data']['technical-data']['invention-title'])
-            if 'classifications-ipcr' in jsonObj['patent-document']['technical-data']:
-                ipcr = ipc(jsonObj['patent-document']['bibliographic-data']['technical-data']['classifications-ipcr'][
-                               'classification-ipcr'])
-
-        my_path = '/Users/linhonggu/Desktop/' + 'test' + path[27:]
-        if not os.path.exists(my_path):
-            os.makedirs(my_path)
-
-        my_file = file.split('.')[0] + '.json'
-        with open(os.path.join(my_path, my_file), 'w') as f:
-            f.write(jsonStr)
-
 
 # patent preprocess
 def unify_s(path, file):
@@ -207,6 +177,7 @@ def unify_s(path, file):
         my_file = 'EP-' + file.split('.')[0].split('-')[1] + '.json'
         with open(os.path.join(my_path, my_file), 'w') as f:
             f.write(my_jsonStr)
+
 # patent preprocess
 def unify_m(path, files):
     mis = ['ucid', 'ipcr', 'title', 'abstract', 'description', 'claims']
