@@ -3,6 +3,7 @@ import xmltodict
 import os
 import re
 
+# clean the punctuation in the text
 def clean(s):
     rt=s.replace('\n', ' ')
     m = re.findall(r"\(.\)", rt)
@@ -17,6 +18,7 @@ def clean(s):
 
     return rt
 
+# abstract preprocess
 def abst(abstract):
     rt=''
     if isinstance(abstract, list):
@@ -45,6 +47,7 @@ def abst(abstract):
     rt = clean(rt)
     return rt
 
+# title preprocess
 def tit(title):
     rt=''
     if isinstance(title, list):
@@ -59,6 +62,7 @@ def tit(title):
 
     return rt
 
+# description preprocess
 def des(description):
     rt=''
     if description['@lang']=='EN':
@@ -78,6 +82,7 @@ def des(description):
     rt = clean(rt)
     return rt
 
+# ipc code preprocess
 def ipc(ipcr):
     rt=[]
     if isinstance(ipcr, list):
@@ -86,6 +91,7 @@ def ipc(ipcr):
             rt.append(s)
     return rt
 
+# claims preprocess
 def cla(claims):
     rt = ''
     if isinstance(claims, dict):
@@ -134,7 +140,6 @@ def cla(claims):
                                 rt += cla['claim-text']['#text']+' '
     rt = clean(rt)
     return rt
-
 
 # patent preprocess
 def unify_s(path, file):
@@ -243,7 +248,6 @@ def unify_m(path, files):
         with open(os.path.join(my_path, my_file), 'w') as f:
             f.write(my_jsonStr)
 
-
 # qrel preprocess
 def qrel(path,file):
     with open(os.path.join(path, file)) as f:
@@ -287,6 +291,7 @@ def qrel(path,file):
             f.write(my_jsonStr)
 
 
+# the main function
 def main():
 
 # qrel preprocess
