@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="def7dae1-c4f4-4c86-a68e-10940f12f1a0" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/elasticIndex.sh" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/index.dsl" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/README.txt" afterPath="$PROJECT_DIR$/README.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.txt" afterPath="$PROJECT_DIR$/README.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TermVectors.py" afterPath="$PROJECT_DIR$/TermVectors.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -32,26 +33,45 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="README.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/README.txt">
+      <file leaf-file-name="Retrieval.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Retrieval.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="-825">
+              <caret line="28" column="28" lean-forward="false" selection-start-line="28" selection-start-column="28" selection-end-line="28" selection-end-column="28" />
+              <folding>
+                <element signature="e#364#438#0" expanded="false" />
+                <element signature="e#557#609#0" expanded="false" />
+                <element signature="e#670#1185#0" expanded="false" />
+                <element signature="e#1271#2338#0" expanded="false" />
+                <element signature="e#3686#5026#0" expanded="false" />
+                <element signature="e#5132#5874#0" expanded="false" />
+                <element signature="e#5983#6996#0" expanded="false" />
+                <element signature="e#7062#11132#0" expanded="false" />
+                <element signature="e#11195#11199#0" expanded="false" />
+                <element signature="e#11308#12112#0" expanded="false" />
+                <element signature="e#12156#12962#0" expanded="false" />
+                <element signature="e#13009#13819#0" expanded="false" />
+                <element signature="e#13861#14616#0" expanded="false" />
+                <element signature="e#14661#16140#0" expanded="false" />
+                <element signature="e#16185#18150#0" expanded="false" />
+                <element signature="e#18213#21429#0" expanded="false" />
+                <element signature="e#21491#24902#0" expanded="false" />
+                <element signature="e#24988#29607#0" expanded="false" />
+                <element signature="e#30211#30604#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TermVectors.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/TermVectors.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="40" column="97" lean-forward="false" selection-start-line="40" selection-start-column="97" selection-end-line="40" selection-end-column="97" />
-              <folding>
-                <element signature="e#208#1149#0" expanded="false" />
-                <element signature="e#1222#1320#0" expanded="false" />
-                <element signature="e#1576#2666#0" expanded="false" />
-              </folding>
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="45">
+                <caret line="3" column="37" lean-forward="false" selection-start-line="3" selection-start-column="37" selection-end-line="3" selection-end-column="37" />
+                <folding />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
@@ -99,6 +119,10 @@
         <option value="$PROJECT_DIR$/VisDataPrepare.py" />
         <option value="$PROJECT_DIR$/TermVectors.py" />
         <option value="$PROJECT_DIR$/README.txt" />
+        <option value="$PROJECT_DIR$/DSL.txt" />
+        <option value="$PROJECT_DIR$/elasticIndex.sh" />
+        <option value="$PROJECT_DIR$/index.dsl" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -175,6 +199,9 @@
     </option>
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/st" />
     </key>
@@ -578,7 +605,14 @@
       <option name="project" value="LOCAL" />
       <updated>1527062893514</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="add comment to termvectors.py">
+      <created>1527063515837</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1527063515837</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -590,11 +624,12 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26575342" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26575342" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Execute Anonymous" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27786753" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32876712" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -604,7 +639,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -624,7 +658,8 @@
     <MESSAGE value="add comment to preprocess.py" />
     <MESSAGE value="add comments to score.py" />
     <MESSAGE value="add comment to visdataprepare.py" />
-    <option name="LAST_COMMIT_MESSAGE" value="add comment to visdataprepare.py" />
+    <MESSAGE value="add comment to termvectors.py" />
+    <option name="LAST_COMMIT_MESSAGE" value="add comment to termvectors.py" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -636,21 +671,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Mark.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="15" column="72" lean-forward="false" selection-start-line="15" selection-start-column="72" selection-end-line="15" selection-end-column="72" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test.py" />
-    <entry file="file://$PROJECT_DIR$/Retrieval.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2970">
-          <caret line="198" column="54" lean-forward="false" selection-start-line="198" selection-start-column="54" selection-end-line="198" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Score.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -894,37 +914,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Retrieval.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="28" column="28" lean-forward="true" selection-start-line="28" selection-start-column="28" selection-end-line="28" selection-end-column="28" />
-          <folding>
-            <element signature="e#364#438#0" expanded="false" />
-            <element signature="e#557#609#0" expanded="false" />
-            <element signature="e#670#1185#0" expanded="false" />
-            <element signature="e#1271#2338#0" expanded="false" />
-            <element signature="e#3686#5026#0" expanded="false" />
-            <element signature="e#5132#5874#0" expanded="false" />
-            <element signature="e#5983#6996#0" expanded="false" />
-            <element signature="e#7062#11132#0" expanded="false" />
-            <element signature="e#11195#11199#0" expanded="false" />
-            <element signature="e#11273#29771#0" expanded="false" />
-            <element signature="e#11308#12112#0" expanded="false" />
-            <element signature="e#12156#12962#0" expanded="false" />
-            <element signature="e#13009#13819#0" expanded="false" />
-            <element signature="e#13861#14616#0" expanded="false" />
-            <element signature="e#14661#16140#0" expanded="false" />
-            <element signature="e#16185#18150#0" expanded="false" />
-            <element signature="e#18213#21429#0" expanded="false" />
-            <element signature="e#21491#24902#0" expanded="false" />
-            <element signature="e#24988#29607#0" expanded="false" />
-            <element signature="e#30211#30604#0" expanded="false" />
-            <marker date="1527061683927" expanded="false" signature="2495:3571" ph="..." />
-            <marker date="1527061683927" expanded="false" signature="29839:30176" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/AddQkey.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -955,14 +944,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/TermVectors.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
@@ -972,6 +953,75 @@
             <element signature="e#1222#1320#0" expanded="false" />
             <element signature="e#1576#2666#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Retrieval.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-825">
+          <caret line="28" column="28" lean-forward="false" selection-start-line="28" selection-start-column="28" selection-end-line="28" selection-end-column="28" />
+          <folding>
+            <element signature="e#364#438#0" expanded="false" />
+            <element signature="e#557#609#0" expanded="false" />
+            <element signature="e#670#1185#0" expanded="false" />
+            <element signature="e#1271#2338#0" expanded="false" />
+            <element signature="e#3686#5026#0" expanded="false" />
+            <element signature="e#5132#5874#0" expanded="false" />
+            <element signature="e#5983#6996#0" expanded="false" />
+            <element signature="e#7062#11132#0" expanded="false" />
+            <element signature="e#11195#11199#0" expanded="false" />
+            <element signature="e#11308#12112#0" expanded="false" />
+            <element signature="e#12156#12962#0" expanded="false" />
+            <element signature="e#13009#13819#0" expanded="false" />
+            <element signature="e#13861#14616#0" expanded="false" />
+            <element signature="e#14661#16140#0" expanded="false" />
+            <element signature="e#16185#18150#0" expanded="false" />
+            <element signature="e#18213#21429#0" expanded="false" />
+            <element signature="e#21491#24902#0" expanded="false" />
+            <element signature="e#24988#29607#0" expanded="false" />
+            <element signature="e#30211#30604#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/elasticIndex.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="70" lean-forward="false" selection-start-line="5" selection-start-column="70" selection-end-line="5" selection-end-column="70" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DSL.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="33" column="26" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="129" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.dsl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1347">
+          <caret line="129" column="1" lean-forward="false" selection-start-line="129" selection-start-column="1" selection-end-line="129" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="45">
+            <caret line="3" column="37" lean-forward="false" selection-start-line="3" selection-start-column="37" selection-end-line="3" selection-end-column="37" />
+            <folding />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
