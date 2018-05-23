@@ -1,3 +1,43 @@
+# calculate the recall
+def Recall(TP, n):
+    R = TP/n
+    return R
+
+# calculate the PRES
+def PRES(correct, mine, R):
+    Nm = len(mine)
+    n = len(correct)
+
+    sum=0
+    i=0
+    for m in mine:
+        i = i+1
+        if m in correct:
+            sum = sum + i
+
+    #sum = sum + R*(Nm+n)-(R*(R-1))/2
+    sum = sum +(n-R)*(Nm+n) - (n-R)*(n-R-1)/2
+    pres = 1 - (sum/n - (n+1)/2)/Nm
+    return pres
+
+# calculate average precision
+def AP(correct, mine):
+    n = len(correct)
+    i=0
+    rel_ret=0
+    sum=0
+    for m in mine:
+        i+=1
+        if m in correct:
+            rel=1
+            rel_ret+=1
+        else:rel=0
+        p = rel_ret/i
+        sum = sum + (rel*p)
+    rt = sum/n
+    return rt
+
+# compare the ground true result and my retrieval result to calculate the average score in three evaluation metrics
 def compare(fT, fM):
     result = {}
     All_P = 0
@@ -31,7 +71,7 @@ def compare(fT, fM):
             TP = len(mv_set & nv_set)
 
             P = PRES(T_dict[k], M_dict[k], TP)
-            R = ARecall(TP, len(nv_set))
+            R = Recall(TP, len(nv_set))
             A = AP(T_dict[k], M_dict[k])
             result[k] = [P, R, A]
             All_P += P
@@ -52,63 +92,11 @@ def compare(fT, fM):
     print(result)
     return ave_P, ave_R, ave_A
 
-def ARecall(TP, n):
-    R = TP/n
-    return R
-
-def PRES(correct, mine, R):
-    Nm = len(mine)
-    n = len(correct)
-
-    sum=0
-    i=0
-    for m in mine:
-        i = i+1
-        if m in correct:
-            sum = sum + i
-
-    #sum = sum + R*(Nm+n)-(R*(R-1))/2
-    sum = sum +(n-R)*(Nm+n) - (n-R)*(n-R-1)/2
-    pres = 1 - (sum/n - (n+1)/2)/Nm
-    return pres
-
-def AP(correct, mine):
-    n = len(correct)
-    i=0
-    rel_ret=0
-    sum=0
-    for m in mine:
-        i+=1
-        if m in correct:
-            rel=1
-            rel_ret+=1
-        else:rel=0
-        p = rel_ret/i
-        sum = sum + (rel*p)
-    rt = sum/n
-    return rt
-
-
-def sort(fM, fN):
-    P_dict = {}
-    with open(fM) as f:
-        for line in f:
-            PAC = line.split()[0]
-            patent = line.split()[2]
-            P_dict.setdefault(PAC,[]).append(patent)
-
-    tmp = sorted(P_dict.items(),key=lambda x:int(x[0].split("-")[1]))
-
-    with open(fN, 'a') as f:
-        for key, value in tmp:
-            for v in value:
-                f.write(key+" 0 "+v+" 1\n")
-
+# the main function
 def main():
     fm = "result.txt"
     ft = "PAC_qrels_21_EN_mark.txt"
     compare(ft, fm)
-
 
 if __name__ == '__main__':
     main()
